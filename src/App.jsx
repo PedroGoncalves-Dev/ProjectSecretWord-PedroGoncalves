@@ -71,8 +71,9 @@ function App() {
 
     setGameStage(stage[1].name)
   }
-  const verificarLetra = () => {
-    setGameStage(stage[2].name)
+  // process the letters of input - processa a letra do input
+  const verificarLetra = (letter) => {
+    console.log(letter)
   }
   const reiniciarGame = () => {
     setGameStage(stage[0].name)

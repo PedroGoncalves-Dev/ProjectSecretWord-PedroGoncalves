@@ -1,3 +1,4 @@
+import { useState, useRef } from 'react';
 import './Game.css'
 
 const Game = ({alterna, 
@@ -8,6 +9,25 @@ const Game = ({alterna,
     letrasErradas, 
     tentativas, 
     pontuacao}) => {
+
+        const [letter, setLetter] = useState('')
+
+        // Cria uma referência mutable inicializada com 'null' que pode ser associada a um elemento DOM ou valor persistente
+        const letterInputRef = useRef(null)
+
+        const handleSubmit = (e) => {
+            e.preventDefault()
+
+            alterna(letter)
+            
+            setLetter('')
+
+            //aceesa o 'ref' do input e da um focus toda vez que der um submit//
+            letterInputRef.current.focus(); 
+        }
+
+
+
 
     return (
         <div className="game">
@@ -26,7 +46,6 @@ const Game = ({alterna,
                 letras.map((letra, i) => 
                     // Verifica se a 'letra' atual está no array 'letrasAdvinhadas'
                     letrasAdvinhadas.includes(letra) ? (
-                        // Se estiver, renderiza um span com a letra
                         <span key={i} className="letter">
                             {letra}
                         </span>
@@ -38,8 +57,15 @@ const Game = ({alterna,
             </div>
             <div className="letterContainer">
                 <p>Tente advinhar uma letra da palavra:</p>
-                <form>
-                    <input type="text" name='letter' maxLength='1' required />
+                <form onSubmit={handleSubmit}>
+                    <input type="text" 
+                    name='letter' 
+                    maxLength='1' 
+                    required 
+                    onChange={(e) => setLetter(e.target.value)}
+                    value={letter}
+                    ref={letterInputRef}
+                    />
                     <button>Jogar!</button>
                 </form>
             </div>
