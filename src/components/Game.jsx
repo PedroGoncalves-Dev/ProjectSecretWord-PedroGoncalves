@@ -3,9 +3,33 @@ import './Game.css'
 const Game = ({alterna}) => {
 
     return (
-        <div>
-            <h1>game</h1>
-            <button onClick={alterna}>Finalizar jogo!</button>
+        <div className="game">
+            <p className="points">
+                <span>Pontuação: 000</span>
+
+            </p>
+            <h1>Advinhe a palavra:</h1>
+            <h3 className="tip">
+                Dica sobre a palavra : <span>Dicaa...</span>
+            </h3>
+            <div className="wordContainer">
+                <span className='letter'>A</span>
+                <span className='blankSquare'>A</span>
+            </div>
+            <div className="letterContainer">
+                <p>Tente advinhar uma letra da palavra:</p>
+                <form>
+                    <input type="text" name='letter' maxLength='1' required />
+                    <button>Jogar!</button>
+                </form>
+            </div>
+            <div className="wrongLettersContainer">
+                <p>Letras já utilizadas:</p>
+                <span>a</span>
+                <span>b</span>
+            </div>
+            
+
         </div>
     )
 }

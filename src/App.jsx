@@ -21,7 +21,7 @@ function App() {
   const [gameStage, setGameStage] = useState(stage[0].name);
   const [words] = useState(wordList)
   const [pickedWord, setPickedWord] = useState('')
-  const [pickedCategoy, setPickedCategoy] = useState('')
+  const [pickedCategory, setPickedCategory] = useState('')
   const [letters, setLetters] = useState('')
   
   const pickeWordAndCategory = () => {
@@ -53,9 +53,9 @@ function App() {
     
     // fill stage
 
-    setPickedWord(word);
-    setPickedCategoy(category);
-    setLetters(wordLetters)
+    setPickedWord(pickedWord);
+    setPickedCategory(pickedCategory);
+    setLetters(letters)
 
 
 
