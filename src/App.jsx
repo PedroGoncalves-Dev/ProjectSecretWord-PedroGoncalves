@@ -20,13 +20,22 @@ function App() {
 
   const [gameStage, setGameStage] = useState(stage[0].name);
   const [words] = useState(wordList)
+
   const [pickedWord, setPickedWord] = useState('')
   const [pickedCategory, setPickedCategory] = useState('')
   const [letters, setLetters] = useState('')
+
+  const [guessedLetters, setGuessedLetters] = useState([])
+  const [wrongLetters, setWrongLetters] = useState ([])
+  const [guesses, setGuesses] = useState(3);
+  const [score, setScore] = useState(0);
   
   const pickeWordAndCategory = () => {
     // escolhe uma categoria aleatoria
+    // Obtém um array com todas as chaves do objeto 'words'
     const categories = Object.keys(words);
+
+    // Seleciona uma chave aleatória do array 'categories'
     const category = 
     categories[Math.floor(Math.random() * Object.keys(categories).length)]
 
@@ -46,16 +55,15 @@ function App() {
     const {word, category} = pickeWordAndCategory();
 
     // create an array of letters- separando as letras
-    let wordLetters = word.split('');
+    let wordLetters = word.split("");
 
     // deixando todas no minusculo
-    wordLetters = wordLetters.map((l) => l.toLowerCase())
+    wordLetters = wordLetters.map((l) => l.toLowerCase());
     
     // fill stage
-
-    setPickedWord(pickedWord);
-    setPickedCategory(pickedCategory);
-    setLetters(letters)
+    setPickedWord(word);
+    setPickedCategory(category);
+    setLetters(wordLetters)
 
 
 
@@ -73,8 +81,17 @@ function App() {
 
   return (
     <div className='App'>
-        {gameStage === 'start' && <StartScreen alterna={startGame}/>}
-        {gameStage === 'game' && <Game alterna={verificarLetra}/>}
+        {gameStage === 'start' && <StartScreen alterna={startGame} />}
+        {gameStage === 'game' && <Game 
+        alterna={verificarLetra} 
+        palavraEscolhida={pickedWord} 
+        categoriaEscolhida= {pickedCategory} 
+        letras= {letters}
+        letrasAdvinhadas={guessedLetters}
+        letrasErradas={wrongLetters}
+        tentativas={guesses}
+        pontuacao={score}
+        />}
         {gameStage === 'end' && <GameOver alterna={reiniciarGame} />}
 
     </div>
