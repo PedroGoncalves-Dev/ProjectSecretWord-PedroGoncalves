@@ -73,8 +73,38 @@ function App() {
   }
   // process the letters of input - processa a letra do input
   const verificarLetra = (letter) => {
-    console.log(letter)
+    const normalizedLetter = letter.toLowerCase()
+
+    // check if letter has already been utlized = 
+    //// Verifica se a letra já foi adivinhada ou errada
+    if (guessedLetters.includes(normalizedLetter) || wrongLetters.includes(normalizedLetter)) {
+      // se sim sai da função
+      return;
+    }
+
+    //push guessed letter or remove guess
+    // Se a letra estiver na lista de letras corretas
+    if (letters.includes(normalizedLetter)) {
+      // Adiciona a letra ao estado de letras adivinhadas
+      setGuessedLetters((actualGuessedLetters) => [
+        ...actualGuessedLetters,
+         normalizedLetter,
+      ])
+    } else { 
+      // Se a letra não estiver na lista de letras corretas
+      // Adiciona a letra ao estado de letras erradas
+      setWrongLetters((actualWrongLetters) => [
+        ...actualWrongLetters, normalizedLetter,
+      ])
+
+    }
+    
+
   }
+  console.log(guessedLetters)
+    console.log(wrongLetters)
+
+
   const reiniciarGame = () => {
     setGameStage(stage[0].name)
   }
