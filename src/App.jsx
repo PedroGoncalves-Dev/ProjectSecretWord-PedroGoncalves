@@ -77,6 +77,8 @@ function App() {
 
 
     setGameStage(stage[1].name)
+
+    // As dependências do useCallback garantem que a função só será recriada se 'pickeWordAndCategory' mudar
   }, [pickeWordAndCategory])
 
   // process the letters of input - processa a letra do input
