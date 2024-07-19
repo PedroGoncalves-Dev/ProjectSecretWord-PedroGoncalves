@@ -149,7 +149,7 @@ function App() {
         tentativas={guesses}
         pontuacao={score}
         />}
-        {gameStage === 'end' && <GameOver alterna={reiniciarGame} />}
+        {gameStage === 'end' && <GameOver alterna={reiniciarGame} pontuacao={score} />}
 
     </div>
   )
