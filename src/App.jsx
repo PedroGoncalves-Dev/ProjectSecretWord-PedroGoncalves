@@ -32,7 +32,7 @@ function App() {
   const [guesses, setGuesses] = useState(numeroTentativa);
   const [score, setScore] = useState(0);
   
-  const pickeWordAndCategory = () => {
+  const pickeWordAndCategory = useCallback(() => {
     // escolhe uma categoria aleatoria
     // Obtém um array com todas as chaves do objeto 'words'
     const categories = Object.keys(words);
@@ -49,10 +49,13 @@ function App() {
 
     return {category, word}
 
-  }
+  }, [words])
 
 
-  const startGame = () => {
+  const startGame = useCallback( () => {
+    // clear all letters
+    clearLetterState()
+
     // escolhe a palavra e a categoria
     const {word, category} = pickeWordAndCategory();
 
@@ -67,12 +70,15 @@ function App() {
     setPickedCategory(category);
     setLetters(wordLetters)
 
+    setScore(0)
+
 
 
 
 
     setGameStage(stage[1].name)
-  }
+  }, [pickeWordAndCategory])
+
   // process the letters of input - processa a letra do input
   const verificarLetra = (letter) => {
     const normalizedLetter = letter.toLowerCase()
@@ -93,7 +99,7 @@ function App() {
          normalizedLetter,
       ])
 
-      setScore(score + 10)
+     
     } else { 
       // Se a letra não estiver na lista de letras corretas
       // Adiciona a letra ao estado de letras erradas
@@ -111,21 +117,56 @@ function App() {
   }
 
   // função para resetar o número de tentativas e as letras erradas
-  const clearLetterStage = () => {
+  const clearLetterState = () => {
     setGuessedLetters([])
     setWrongLetters([])
   }
 
+  const vitoria = () => {
+    // clear all letters
+    clearLetterState()
+
+    // escolhe a palavra e a categoria
+    const {word, category} = pickeWordAndCategory();
+
+    // create an array of letters- separando as letras
+    let wordLetters = word.split("");
+
+    // deixando todas no minusculo
+    wordLetters = wordLetters.map((l) => l.toLowerCase());
+    
+    // fill stage
+    setPickedWord(word);
+    setPickedCategory(category);
+    setLetters(wordLetters)
+    
+  }
+  
   useEffect(() => {
 
     if(guesses <= 0) {
       // reset all stage
-      clearLetterStage()
+      clearLetterState()
 
       setGameStage(stage[2].name)
     }
 
   } , [guesses])
+
+  useEffect(() => {
+    // Cria um conjunto de letras únicas a partir do array 'letters'
+    const uniqueLetters = [...new Set(letters)]
+  
+    // Verifica se o número de letras adivinhadas é igual ao número de letras únicas
+    if (guessedLetters.length === uniqueLetters.length) {
+      // Atualiza a pontuação incrementando-a em 100 pontos
+      setScore((actualScore) => (actualScore += 100))
+      
+      // Chama a função 'vitoria' para executar as ações de vitória
+      vitoria()
+    }
+  // O useEffect depende de 'guessedLetters', 'letters' e 'vitoria'. Será executado sempre que qualquer um deles mudar
+  }, [guessedLetters, letters, vitoria])
 
 
   const reiniciarGame = () => {
@@ -133,7 +174,9 @@ function App() {
     setScore(0)
     setGuesses(numeroTentativa)
     setGameStage(stage[0].name)
+   
   }
+  console.log(pickedWord)
 
 
   return (
