@@ -141,6 +141,7 @@ function App() {
     setPickedWord(word);
     setPickedCategory(category);
     setLetters(wordLetters)
+
     
   }
   
@@ -161,14 +162,20 @@ function App() {
   
     // Verifica se o número de letras adivinhadas é igual ao número de letras únicas
     if (guessedLetters.length === uniqueLetters.length) {
+       // Adiciona um atraso de 2 segundos antes de atualizar a pontuação e chamar a função 'vitoria'
+    const timer = setTimeout(() => {
       // Atualiza a pontuação incrementando-a em 100 pontos
-      setScore((actualScore) => (actualScore += 100))
+      setScore((actualScore) => (actualScore += 100));
       
       // Chama a função 'vitoria' para executar as ações de vitória
-      vitoria()
+      vitoria();
+    }, 1500); // 2000 milissegundos = 2 segundos
+
+    // Limpeza do timer quando o componente desmontar ou quando 'guessedLetters', 'letters' ou 'vitoria' mudarem
+    return () => clearTimeout(timer);
     }
   // O useEffect depende de 'guessedLetters', 'letters' e 'vitoria'. Será executado sempre que qualquer um deles mudar
-  }, [guessedLetters, letters, vitoria])
+  }, [guessedLetters, letters, vitoria, ])
 
 
   const reiniciarGame = () => {
