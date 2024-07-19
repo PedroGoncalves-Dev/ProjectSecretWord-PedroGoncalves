@@ -13,6 +13,12 @@
     border: 20px solid #ecfa00;
     display: flex;
 }
+.letter {
+    animation-name: animacaoLetter;
+    animation-duration: 1.5s;
+    animation-direction: alternate;
+    position: relative;
+}
 .letter ,
 .blankSquare {
     font-size: 70px;
@@ -24,6 +30,7 @@
     background: #fff;
     color: #000;
     font-weight: bold;
+    
 }
 .letterContainer p {
     margin-bottom: 1.2em;
@@ -46,8 +53,24 @@
     text-transform: uppercase;
     margin: 0 5px;
     transition: 2s;
+
 }
-.wrongLettersContainer span::after {
-    font-size: 1.5em;
-    color: red;
+
+@keyframes animacaoLetter {
+    0% {
+        bottom: 0;
+        color: transparent;
+
+
+    }
+    50% {
+        bottom: 20px;
+        color: #00000021;
+
+    }
+    100% {
+        bottom: 0px;
+        color: #000;
+
+    }
 }
