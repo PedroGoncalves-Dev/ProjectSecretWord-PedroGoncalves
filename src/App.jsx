@@ -18,6 +18,8 @@ function App() {
     {id:3, name: 'end'},
   ];
 
+  const numeroTentativa = 3
+
   const [gameStage, setGameStage] = useState(stage[0].name);
   const [words] = useState(wordList)
 
@@ -27,7 +29,7 @@ function App() {
 
   const [guessedLetters, setGuessedLetters] = useState([])
   const [wrongLetters, setWrongLetters] = useState ([])
-  const [guesses, setGuesses] = useState(3);
+  const [guesses, setGuesses] = useState(numeroTentativa);
   const [score, setScore] = useState(0);
   
   const pickeWordAndCategory = () => {
@@ -90,6 +92,8 @@ function App() {
         ...actualGuessedLetters,
          normalizedLetter,
       ])
+
+      setScore(score + 10)
     } else { 
       // Se a letra não estiver na lista de letras corretas
       // Adiciona a letra ao estado de letras erradas
@@ -97,15 +101,37 @@ function App() {
         ...actualWrongLetters, normalizedLetter,
       ])
 
+
+      //diminui as tentativas cada vez que a letra estiver errada
+      setGuesses((actualGuesses) => actualGuesses - 1)
     }
+
     
 
   }
-  console.log(guessedLetters)
-    console.log(wrongLetters)
+
+  // função para resetar o número de tentativas e as letras erradas
+  const clearLetterStage = () => {
+    setGuessedLetters([])
+    setWrongLetters([])
+  }
+
+  useEffect(() => {
+
+    if(guesses <= 0) {
+      // reset all stage
+      clearLetterStage()
+
+      setGameStage(stage[2].name)
+    }
+
+  } , [guesses])
 
 
   const reiniciarGame = () => {
+
+    setScore(0)
+    setGuesses(numeroTentativa)
     setGameStage(stage[0].name)
   }
 
